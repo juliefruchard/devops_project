@@ -4,6 +4,14 @@ import './App.css'
 function App() {
   const [tasks, setTasks] = useState([])
   const [newTask, setNewTask] = useState('')
+  const [categories, setCategories] = useState([])
+  const [newCategory, setNewCategory] = useState('')
+  const [newTaskCategory, setNewTaskCategory] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('')
+
+  const categoryAlreadyExists = categories.some(
+    (category) => category.toLowerCase() === newCategory.trim().toLowerCase(),
+  )
 
   function addTask(event) {
     event.preventDefault()
@@ -13,9 +21,24 @@ function App() {
 
     setTasks((currentTasks) => [
       ...currentTasks,
-      { id: crypto.randomUUID(), title, completed: false },
+      {
+        id: crypto.randomUUID(),
+        title,
+        category: newTaskCategory,
+        completed: false,
+      },
     ])
     setNewTask('')
+  }
+
+  function addCategory(event) {
+    event.preventDefault()
+    const name = newCategory.trim()
+
+    if (!name || categoryAlreadyExists) return
+
+    setCategories((currentCategories) => [...currentCategories, name])
+    setNewCategory('')
   }
 
   function deleteTask(id) {
@@ -30,7 +53,10 @@ function App() {
     )
   }
 
-  const remainingTasks = tasks.filter((task) => !task.completed).length
+  const visibleTasks = tasks.filter(
+    (task) => !selectedCategory || task.category === selectedCategory,
+  )
+  const remainingTasks = visibleTasks.filter((task) => !task.completed).length
 
   return (
     <main className="todo-app">
@@ -49,8 +75,41 @@ function App() {
             onChange={(event) => setNewTask(event.target.value)}
             placeholder="Ex. Faire les courses"
           />
+          <select
+            aria-label="Catégorie de la tâche"
+            value={newTaskCategory}
+            onChange={(event) => setNewTaskCategory(event.target.value)}
+          >
+            <option value="">Sans catégorie</option>
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
           <button type="submit">Ajouter</button>
         </div>
+      </form>
+
+      <form className="category-form" onSubmit={addCategory}>
+        <label htmlFor="new-category">Mes catégories</label>
+        <div className="category-input">
+          <input
+            id="new-category"
+            value={newCategory}
+            onChange={(event) => setNewCategory(event.target.value)}
+            placeholder="Ex. Travail"
+          />
+          <button
+            type="submit"
+            disabled={!newCategory.trim() || categoryAlreadyExists}
+          >
+            Créer
+          </button>
+        </div>
+        {categoryAlreadyExists && (
+          <p className="category-hint">Cette catégorie existe déjà.</p>
+        )}
       </form>
 
       <section className="tasks-section" aria-label="Liste des tâches">
@@ -60,12 +119,27 @@ function App() {
             {remainingTasks} {remainingTasks === 1 ? 'tâche' : 'tâches'}
           </span>
         </div>
+        <label className="category-filter">
+          <span>Afficher</span>
+          <select
+            value={selectedCategory}
+            onChange={(event) => setSelectedCategory(event.target.value)}
+            aria-label="Filtrer par catégorie"
+          >
+            <option value="">Toutes les catégories</option>
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </label>
 
-        {tasks.length === 0 ? (
+        {visibleTasks.length === 0 ? (
           <p className="empty-message">Tes tâches apparaîtront ici.</p>
         ) : (
           <ul className="task-list">
-            {tasks.map((task) => (
+            {visibleTasks.map((task) => (
               <li className="task-item" key={task.id}>
                 <label className="task-label">
                   <input
@@ -74,9 +148,16 @@ function App() {
                     checked={task.completed}
                     onChange={() => markTaskAsDone(task.id)}
                   />
-                  <span className={task.completed ? 'task-title completed' : 'task-title'}>
+                  <span
+                    className={
+                      task.completed ? 'task-title completed' : 'task-title'
+                    }
+                  >
                     {task.title}
                   </span>
+                  {task.category && (
+                    <span className="category-tag">{task.category}</span>
+                  )}
                 </label>
                 <button
                   type="button"

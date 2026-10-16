@@ -55,6 +55,18 @@
   outline: none;
 }
 
+.task-form select,
+.category-filter select {
+  min-width: 0;
+  padding: 0.6rem;
+  border: 1px solid #dce3dc;
+  border-radius: 0.625rem;
+  background: #fcfdfb;
+  color: #3d4b41;
+  font: inherit;
+  font-size: 0.875rem;
+}
+
 .task-form input:focus {
   border-color: #6e9277;
   box-shadow: 0 0 0 3px rgb(110 146 119 / 15%);
@@ -77,6 +89,58 @@
   border-color: #42664a;
   background: #42664a;
   color: #fff;
+}
+
+.task-form button:disabled,
+.category-input button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.category-form {
+  margin-top: 1rem;
+}
+
+.category-form > label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #3d4b41;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.category-input {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.category-input input {
+  min-width: 0;
+  flex: 1;
+  border: 1px solid #dce3dc;
+  border-radius: 0.625rem;
+  background: #fcfdfb;
+}
+
+.category-input button {
+  padding: 0.5rem 0.875rem;
+  border-color: #dce3dc;
+  border-radius: 0.625rem;
+  background: #fff;
+  color: #557b5e;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.category-input button:hover:not(:disabled) {
+  border-color: #557b5e;
+  background: #f2f6f1;
+}
+
+.category-hint {
+  margin: 0.35rem 0 0;
+  color: #a4453d;
+  font-size: 0.8rem;
 }
 
 .tasks-section {
@@ -102,6 +166,20 @@
   font-size: 0.8rem;
 }
 
+.category-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  color: #758078;
+  font-size: 0.8rem;
+}
+
+.category-filter select {
+  padding: 0.35rem 0.55rem;
+  font-size: 0.8rem;
+}
+
 .task-list {
   display: grid;
   gap: 0.625rem;
@@ -120,7 +198,9 @@
   border: 1px solid #e9ede8;
   border-radius: 0.75rem;
   background: #fff;
-  transition: border-color 150ms ease, background-color 150ms ease;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease;
 }
 
 .task-item:hover {
@@ -158,6 +238,15 @@
   text-decoration: line-through;
 }
 
+.category-tag {
+  flex: 0 0 auto;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: #edf3ec;
+  color: #557b5e;
+  font-size: 0.7rem;
+}
+
 .task-item > button {
   border: 0;
   border-radius: 0.4rem;
@@ -191,6 +280,10 @@
   }
 
   .task-form button {
+    min-height: 2.75rem;
+  }
+
+  .task-form select {
     min-height: 2.75rem;
   }
 }

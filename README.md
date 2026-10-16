@@ -7,7 +7,7 @@ Petit projet d’apprentissage réalisé avec React et Vite.
 ## Où écrire le code ?
 
 - `src/App.jsx` : le composant principal. C’est ici que se trouvent l’affichage
-  et les actions de la liste (ajouter et supprimer une tâche).
+  et les actions de la liste (ajouter, classer, terminer et supprimer une tâche).
 - `src/App.css` : les styles de la liste et de son formulaire.
 - `src/index.css` : les styles généraux de la page (police, fond, boutons).
 - `src/main.jsx` : démarre React et affiche le composant `App`. Tu n’as
@@ -18,6 +18,7 @@ Petit projet d’apprentissage réalisé avec React et Vite.
 
 Les tâches sont gardées en mémoire : elles disparaissent si tu actualises la
 page. C’est volontaire pour garder ce point de départ simple.
+Tu peux créer tes propres catégories et filtrer la liste par catégorie.
 
 ## Démarrer le projet
 
