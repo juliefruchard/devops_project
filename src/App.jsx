@@ -39,7 +39,7 @@ function App() {
     )
   }
 
-  const remainingTasks = tasks.filter((task) => task.completed).length
+  const remainingTasks = tasks.filter((task) => !task.completed).length
 
   return (
     <main className="todo-app">
